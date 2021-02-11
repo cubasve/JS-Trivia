@@ -48,28 +48,28 @@ const timer = a => {
         res(a);
       }, Math.random() * 100)
     );
-  };
-  const all = Promise.all([
+};
+const all = Promise.all([
     timer('first'),
     timer('second')
-  ]).then(data => console.log(data)); /* ['first', 'second'] */
+]).then(data => console.log(data)); /* ['first', 'second'] */
 
-  //10.What is returned from console.log?
-  let dog = {
-      breed: "Border Collie",
-      sound: "Wooh",
-      getBreed: () => {
-          return this.breed;
-      },
-      getSound: function() {
-          return this.sound;
-      }
-  }
-  console.log(dog.getBreed(), dog.getSound()); /* undefined, "Wooh" */
-  /* 
-  EXPLANATION:
-  Arrow function: value of this is not bound to the dog - it's bound to the window
-  */
+//10.What is returned from console.log?
+let dog = {
+    breed: "Border Collie",
+    sound: "Wooh",
+    getBreed: () => {
+        return this.breed;
+    },
+    getSound: function() {
+        return this.sound;
+    }
+}
+console.log(dog.getBreed(), dog.getSound()); /* undefined, "Wooh" */
+/* 
+EXPLANATION:
+Arrow function: value of this is not bound to the dog - it's bound to the window
+*/
 
 //11. When running JavaScript in the browser, what gets logged when we try to call myFunction()?
 //myFunction, Window, or undefined?
@@ -109,16 +109,23 @@ console.log(1..n); /* undefined */
 /*
 EXPLANATION:
 1. = is a valid number
-second dot: assumes you are using dot notation to access a property of the number you just created
+second dot: assumes you are using dot notation to access a property (n) of the number (1) you just created
 */
 
 //14. What gets logged when we test the following equality scenarios?
+/*
+function a(c) {
+    return c;
+}
+*/
 const a = c => c;
 const b = c => c;
 console.log(a == b); /* false */
 console.log(a(7) === b(7)); /* true */
 /*
-EXPLANANTION:
+EXPLANATION:
+- Even though function a and function b are the exact same, they have different memory addresses --> false
+- The result of function a & b is the same value and data type --> true
 */
 
 //15. Let's display some notifications to our user! What gets logged in the snippet?
@@ -127,6 +134,12 @@ console.log(`You have ${notifications} notification${notifications !== 1 && 's'}
 /* You have 1 notificationfalse */
 /*
 EXPLANATION:
+a && b
+- If a is truthy, it returns b (both need to be true - a is truthy, check if b is truthy too) --> return truthy if b is truthy too
+- If a is falsey, it returns a (both need to be true so if a is falsey, then return early) --> return falsey
+
+${notifications !== 1 && 's'}
+- a is falsey (notifications = 1) --> return early --> falsey
  */
 
 //16. Given an array of fruits, after slice method is applied, what will the result be?
@@ -135,7 +148,7 @@ var citrus = fruits.slice(1, 3);
 console.log(citrus); //[Orange, Lemon]
 /*
 EXPLANATION:
-Slice method starts from 1 and UP TO 3 (NOT INCLUDING)
+Slice method starts from index 1 and UP TO index 3 (NOT INCLUDING)
 */
 
 //17. When setting variables equal to each other and then changing one of them, does it change the other?
@@ -173,6 +186,8 @@ EXPLANATION:
 
 console.log(a === 9) //false
 console.log(b === 10) //false
+
+console.log(a < b); --> compares values and data types?
 */
 
 //19. What would be the output of the following three console.logs?
@@ -224,15 +239,16 @@ async function f() {
 f(); /* After 1 sec, it would say 'done!' */
 /*
 EXPLANATION:
+- Resolve promise in 1 sec by saying 'done!'
 */
 
 //21. What does this snippet of code return?
 function ArrayBoolean() {
-    if ([] && [1]) {
+    if ([] && [1]) { /* truthy && truthy */
         return [true, true];
-    } else if ([] && ![1]) {
+    } else if ([] && ![1]) { /* truthy && falsey */
         return [true, false];
-    } else if (![] && [1]) {
+    } else if (![] && [1]) { /* falsey && truthy */
         return [false, true];
     } else {
         return [false, false];
@@ -241,6 +257,8 @@ function ArrayBoolean() {
 ArrayBoolean(); /* [true, true] */
 /* 
 EXPLANATION: 
+- What is falsey in JS? false, 0, '', null, undefined, NaN
+- Since the if statement is truthy, the line of code executes --> [true, true]
 */
 
 //22. Consider the following array of 1 object.
@@ -282,6 +300,9 @@ console.log(
 );
 /*
 EXPLANATION:
+console.log(arr1.sort()); //['a', 'b', 'c']
+console.log(arr2.sort()); //['a', 'b', 'c']
+
 */
 
 //25. What gets logged?
@@ -294,7 +315,34 @@ const arr = [
 console.log(arr.reduce((agg, el) => agg + el(agg), 1)); /* 120 */
 /*
 EXPLANATION:
+index 0: agg = 1 * 1 = 1
+index 1: agg = 1 * 2 = 2
+index 2: agg = 2 * 3 = 6
+index 3: agg = 6 * 4 = 24
 
+el(agg) = el(1) --> 1
+el(agg) = el(2) --> 4
+el(agg)= el(6) --> 18
+el(agg) el(24) --> 96
+--------------------------------------
+console.log(
+  arr.reduce(function(agg, el) {
+    console.log('agg', agg)
+    console.log('el(agg)', el(agg))
+    return agg + el(agg)
+  }, 1)
+)
+
+undefined
+agg: 1
+el(agg): 1
+agg: 2
+el(agg): 4
+agg: 6
+el(agg): 18
+agg: 24
+el(agg): 96
+120
 */
 
 //26. What gets logged in the following scenario?
@@ -302,5 +350,14 @@ console.log(2 + "1"); /* 21 */
 console.log(2 - "1"); /* 1 */
 /*
 EXPLANATION:
+Type coercion = automatic/implicit conversion of values from 1 data type to another 
+Type coercion = implicit VS Type conversion = implicit or explicit
 
+- Type coercion: JS coerced 2 from a number to a string and then concatenated the 2 values together
+- JavaScript had a choice between a string or a number and decided to use a string
+- JS could have coerced 1 from a string into a number and return a sum of 3
+2 + "1" --> "2" + "1" --> concatenation --> "21"
+
+- Type coercion: JS converts the 1 from a string into a number
+2 - "1" --> 2 - 1 = 1
 */
