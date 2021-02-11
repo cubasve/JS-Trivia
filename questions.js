@@ -225,3 +225,82 @@ f(); /* After 1 sec, it would say 'done!' */
 /*
 EXPLANATION:
 */
+
+//21. What does this snippet of code return?
+function ArrayBoolean() {
+    if ([] && [1]) {
+        return [true, true];
+    } else if ([] && ![1]) {
+        return [true, false];
+    } else if (![] && [1]) {
+        return [false, true];
+    } else {
+        return [false, false];
+    }
+}
+ArrayBoolean(); /* [true, true] */
+/* 
+EXPLANATION: 
+*/
+
+//22. Consider the following array of 1 object.
+//What happens when we spread that array and change the firstName property on the 0-index object?
+const arr1 = [{firstName: 'James'}];
+const arr2 = [...arr1];
+arr2[0].firstName = 'Jonah';
+console.log(arr1); /* [{firstName: 'Jonah'}] */
+/*
+EXPLANATION:
+... = spread operator --> copies the original array
+- arr1 & arr2 have the same memory address so when the values of either of them is changed, both their values change since they point to the same memory address
+*/
+
+//23. Consider the following variables. What gets logged?
+var a = [1, 2, 3];
+var b = [1, 2, 3];
+var c = '1, 2, 3';
+console.log(a == c); /* true */
+console.log(b == c); /* true */
+console.log(a == b);  /* false */
+/*
+EXPLANATION: 
+== looks only at the values VS === looks at the values and data types
+console.log(a === c); //false
+console.log(b === c); //false
+
+console.log(a == b) //Why false? Since they're both arrays, they compare to see if the arrays are the same in memory
+*/
+
+//24. Consider the following arrays.
+//What gets logged in various sorting conditions?
+const arr1 = ['a', 'b', 'c'];
+const arr2 = ['b', 'c', 'a'];
+console.log(
+  arr1.sort() === arr1, /* true */
+  arr2.sort() == arr2, /* true */ 
+  arr1.sort() === arr2.sort() /* false */
+);
+/*
+EXPLANATION:
+*/
+
+//25. What gets logged?
+const arr = [
+    x => x * 1,
+    x => x * 2,
+    x => x * 3,
+    x => x * 4, 
+]
+console.log(arr.reduce((agg, el) => agg + el(agg), 1)); /* 120 */
+/*
+EXPLANATION:
+
+*/
+
+//26. What gets logged in the following scenario?
+console.log(2 + "1"); /* 21 */
+console.log(2 - "1"); /* 1 */
+/*
+EXPLANATION:
+
+*/
