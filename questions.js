@@ -138,3 +138,90 @@ EXPLANATION:
 Slice method starts from 1 and UP TO 3 (NOT INCLUDING)
 */
 
+//17. When setting variables equal to each other and then changing one of them, does it change the other?
+//Consider the following code. What is logged?
+let a1 = {
+    name: 'Johnny',
+    hobby: 'football'
+};
+let b1 = 'Lisa prefers Johnny';
+let c1 = ['Denny', 'Michelle', 'Chris R'];
+let a2 = a1;
+let b2 = b1;
+let c2 = c1;
+a2.hobby = 'roofsitting';
+b2 = 'Lisa prefers Mark';
+c2[2] = 'Doggy';
+console.log(a1.hobby); /* roofsitting */
+console.log(b1); /* Lisa prefers Johnny */
+console.log(c1[2]); /* Doggy */
+/*
+EXPLANATION:
+- a1 & a2, a1 & b2 and c1 & c2 have the same memory address
+- When either one of them changes their values, the other ones changes too since they point to the same memory address
+*/
+
+//18. What gets logged?
+var a = [9];
+var b = [10];
+console.log(a == 9); /* true */ 
+console.log(b == 10); /* true */
+console.log(a < b); /* false */
+/*
+EXPLANATION:
+== only looks at the value VS === looks at the value AND data type
+
+console.log(a === 9) //false
+console.log(b === 10) //false
+*/
+
+//19. What would be the output of the following three console.logs?
+function withVar() {
+    /*
+    2 OTHER WAYS OF WRITING THE SAME FUNCTION AS BELOW
+
+    const b = function() {
+        return a;
+    }
+
+    function b() {
+        return a;
+    }
+    */
+    const b = () => a;
+    var a = 24;
+    return b;
+}
+
+function withLet() {
+    const b = () => a;
+    let a = 24;
+    return b;
+}
+
+function changingValue() {
+    let a = 24;
+    const b = () => a;
+    a = 42;
+    return b;
+}
+console.log(withVar() ()); /* 24 */
+console.log(withLet() ()); /* 24 */
+console.log(changingValue() ()); /* 42 */
+/* 
+EXPLANATION:
+*/
+
+//20. Consider the following async function and its output.
+//What will be displayed to the console when calling the f() function?
+async function f() {
+    let result = 'first!';
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve('done!'), 1000);
+    });
+    result = await promise;
+}
+f(); /* After 1 sec, it would say 'done!' */
+/*
+EXPLANATION:
+*/
