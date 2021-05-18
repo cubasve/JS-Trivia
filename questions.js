@@ -170,8 +170,12 @@ console.log(b1); /* Lisa prefers Johnny */
 console.log(c1[2]); /* Doggy */
 /*
 EXPLANATION:
-- a1 & a2, a1 & b2 and c1 & c2 have the same memory address
+- a1 & a2 and c1 & c2 have the same memory address
 - When either one of them changes their values, the other ones changes too since they point to the same memory address
+NOTE: This is only true for functions, arrays and objects
+
+Since b1 & b2 are strings, b1 is still 'Lisa prefers Johnny' and b2 is 'Lisa prefers Mark'
+even though they are equal to one another
 */
 
 //18. What gets logged?
@@ -225,6 +229,7 @@ console.log(withLet() ()); /* 24 */
 console.log(changingValue() ()); /* 42 */
 /* 
 EXPLANATION:
+
 */
 
 //20. Consider the following async function and its output.
@@ -240,6 +245,7 @@ f(); /* After 1 sec, it would say 'done!' */
 /*
 EXPLANATION:
 - Resolve promise in 1 sec by saying 'done!'
+- The resolve section in a promise is inside .then() and the reject section is in .catch()
 */
 
 //21. What does this snippet of code return?
@@ -271,6 +277,7 @@ console.log(arr1); /* [{firstName: 'Jonah'}] */
 EXPLANATION:
 ... = spread operator --> copies the original array
 - arr1 & arr2 have the same memory address so when the values of either of them is changed, both their values change since they point to the same memory address
+NOTE: This is only true for functions, arrays and objects
 */
 
 //23. Consider the following variables. What gets logged?
@@ -295,7 +302,7 @@ const arr1 = ['a', 'b', 'c'];
 const arr2 = ['b', 'c', 'a'];
 console.log(
   arr1.sort() === arr1, /* true */
-  arr2.sort() == arr2, /* true */ 
+  arr2.sort() == arr2, /* true */  //NOTE: arr2.sort() === arr2 is true as well
   arr1.sort() === arr2.sort() /* false */
 );
 /*
@@ -303,6 +310,10 @@ EXPLANATION:
 console.log(arr1.sort()); //['a', 'b', 'c']
 console.log(arr2.sort()); //['a', 'b', 'c']
 
+- arr1.sort() and arr1 (same with arr2 and arr2.sort()) have the same data type (array) and same values ('a', 'b', 'c')
+so they're the same
+
+- arr1.sort() and arr2.sort() are not equal because they do not have the same memory address
 */
 
 //25. What gets logged?
@@ -315,6 +326,19 @@ const arr = [
 console.log(arr.reduce((agg, el) => agg + el(agg), 1)); /* 120 */
 /*
 EXPLANATION:
+index 0:                             x*1
+    agg + el(agg) = 1 + el(1) = 1 + (1*1) = 1 + 1 = 2
+
+index 1:                             x*2
+    agg + el(agg) = 2 + el(2) = 2 + (2*2) = 2 + 4 = 6
+
+index 2:                             x*3
+    agg + el(agg) = 6 + el(6) = 6 + (6*3) = 6 + 18 = 24
+
+index 3:                                 x*4
+    agg + el(agg) = 24 + el(24) = 24 + (24*4) = 24 + 96 = 120
+
+
 index 0: agg = 1 * 1 = 1
 index 1: agg = 1 * 2 = 2
 index 2: agg = 2 * 3 = 6
@@ -325,13 +349,6 @@ el(agg) = el(2) --> 4
 el(agg)= el(6) --> 18
 el(agg) el(24) --> 96
 --------------------------------------
-console.log(
-  arr.reduce(function(agg, el) {
-    console.log('agg', agg)
-    console.log('el(agg)', el(agg))
-    return agg + el(agg)
-  }, 1)
-)
 
 undefined
 agg: 1
